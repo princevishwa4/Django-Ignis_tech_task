@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="container">
+        <div class="col mt-5 justify-content-center">
+            {% if event %}
+                <div class="container bcontent">
+                    <h2>Event Details</h2>
+                    <hr />
+                    <div class="card mt-5" style="width: 1000px;">
+                        <div class="row no-gutters">
+                            <div class="col-sm-6">
+                                <img class="card-img" src="{{event.image.url}}" alt="{{event.image.url}}">
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{event.event_name | capfirst}}</h5>
+                                    <p class="card-text"><strong>Description :- </strong>{{event.description|slice:40}}</p>
+                                    <p class="card-text"><strong>Location :- </strong>{{event.location}}</p>
+                                    <p class="card-text"><strong>Start Date :- </strong>{{event.start_date}}</p>
+                                    <p class="card-text"><strong>End Date :- </strong>{{event.end_date}}</p>
+                                    <p class="card-text"><strong>End Time :- </strong>{{event.end_time}}</p>
+                                    <p class="card-text"><strong>Total Likes :- </strong>{{event.total_likes}}</p>
+                                    <form action="{% url 'like_event' %}" method="POST">
+                                        {% csrf_token %}
+                                        <div style="text-align: right;">
+                                            <a href="{% url 'home' %}" class="btn btn-primary">Back</a>
+                                            {% if is_liked %}
+                                            <button type="submit" class="likes" value="{{event.pk}}" name="event_id">
+                                                <i class="fa fa-heart styleheart" aria-hidden="true" ></i>
+                                            </button>
+                                            {% else %}
+                                            <button type="submit" class="likes" value="{{event.pk}}" name="event_id">
+                                                <i class="fa fa-heart-o styleheart" aria-hidden="true"></i>
+                                            </button>                                            
+                                            {% endif %}
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+            <h2>No Events Available</h2>
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock content %}
+    

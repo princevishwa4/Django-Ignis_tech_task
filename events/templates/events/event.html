@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% if form.non_field_errors %}
+        {% for error in form.non_field_errors %}
+            <p class="alert alert-danger my-3">{{error}}</p>
+        {% endfor %}
+    {% endif %}
+    <div class="card card-custom mx-4 mb-3 m-auto" style="width: 50rem;">
+        <h3 style="text-align: center;">Add new event</h3>
+        <hr />
+        <div class="card-body">    
+            <form method="POST" novalidate enctype="multipart/form-data">
+                {% csrf_token %}
+                {% for elements in form %}
+                    <div class="form-group">
+                        {{elements.label_tag}} {{elements}} <small class="text-danger">{{elements.errors | striptags}}</small>
+                    </div>
+                {% endfor %}
+                <input type="submit" value="Create Event" class="btn btn-primary">
+            </form>
+        </div>
+    </div>
+{% endblock content %}
+    
